@@ -279,6 +279,15 @@
 
     <script>
       App.init();
+
+      const data = {
+            mail: 'ivan@biz.pro',
+            password: 'odinodin'
+        };
+
+      Account.list(data, function(err, response) {
+          console.log(err, response);
+      });
     </script>
 </body>
 </html>
