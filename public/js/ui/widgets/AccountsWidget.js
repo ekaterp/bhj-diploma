@@ -3,6 +3,8 @@
  * отображения счетов в боковой колонке
  * */
 
+// const res = require("express/lib/response");
+
 class AccountsWidget {
   /**
    * Устанавливает текущий элемент в свойство element
@@ -14,7 +16,9 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
-
+    this.element = element;
+    this.registerEvents();
+    this.update();
   }
 
   /**
@@ -39,7 +43,12 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+    Account.list(null, (err, resp) => {
+      if (resp && resp.success) {
+        this.clear();
+        resp.data.array.forEach(a => this.renderItem(a));
+      }
+    })
   }
 
   /**
@@ -48,7 +57,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    this.element.querySelectorAll('.account').forEach(e => e.remove());
   }
 
   /**
@@ -68,7 +77,12 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-
+    return `<li class="active account" data-id="${item.id}">
+                <a href="#">
+                    <span>${item.name}</span>
+                    <span>${item.sum} ₽</span>
+                </a>
+            </li>`
   }
 
   /**
@@ -78,6 +92,6 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-
+    this.element.insertAdjacentHTML('beforeend', this.getAccountHTML(data));
   }
 }

@@ -6,14 +6,16 @@ const createRequest = (options = {}) => {
     xhr.responseType = 'json'; 
     
     let url = options.url;
-    const formData = new FormData();
+    let formData = null;
 
     if (options.data) {
         if (options.method === 'GET') {
             url += '?' + Object.entries(options.data).map(
-                ([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+                // ([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+                entry => entry.map(encodeURIComponent).join('=')
             ).join('&');
         } else {
+            formData = new FormData();
             Object.entries(options.data).forEach(v => formData.append(...v))
         }
     }
@@ -30,10 +32,10 @@ const createRequest = (options = {}) => {
                 } else {
                     err = _resp;
                 }
+            } else {
+                err = new Error('...');
             }
-            options.callback( err, response);  // я запуталась -  опять колбек?? откуда и зачем?
-        } else {
-            alert('error')
+            options.callback(err, resp);  // я запуталась -  опять колбек?? откуда и зачем?
         }
     }
 

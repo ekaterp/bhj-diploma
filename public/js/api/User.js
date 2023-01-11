@@ -18,8 +18,7 @@ class User {
   //Возвращает текущего авторизованного пользователя из локального хранилища
 
   static current() {
-    const user = localStorage.user;
-    return user ? JSON.parse(user) : user;
+    return localStorage.user ? JSON.parse(localStorage.user) : undefined;
   }
 
   //Получает информацию о текущем авторизованном пользователе.
