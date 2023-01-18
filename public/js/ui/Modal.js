@@ -14,9 +14,7 @@ class Modal {
   //При нажатии на элемент с data-dismiss="modal" закрывает текущее окно (с помощью Modal.onClose)
   registerEvents() {
     this.element.querySelectorAll('[data-dismiss="modal"]').forEach(btn => {
-      btn.onсlick = e => {
-        this.onClose(e);
-      }
+      btn.addEventListener('click', e => this.onClose(e));
     });
   }
 
